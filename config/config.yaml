@@ -1,0 +1,63 @@
+# Model Configuration
+model:
+  name: "MentalHealthTransformer"
+  vocab_size: 10000
+  n_embd: 256            # Reduced model size to prevent overfitting
+  num_heads: 4           # Fewer heads
+  n_layer: 3             # Fewer layers
+  num_classes: 3         # Depression, Anxiety, Suicide
+  max_seq_length: 256    # Shorter sequences
+  dropout: 0.3           # Higher dropout for regularization
+  
+# Training Configuration
+training:
+  batch_size: 32
+  learning_rate: 0.00005  # Reduced learning rate to prevent overfitting
+  weight_decay: 0.1       # Increased weight decay for regularization
+  num_epochs: 5           # Fewer epochs to prevent overfitting
+  warmup_steps: 500
+  gradient_clip_norm: 1.0
+  save_every: 1000
+  eval_every: 200
+  
+# Data Configuration
+data:
+  train_path: "data/train.csv"
+  val_path: "data/val.csv"
+  test_path: "data/test.csv"
+  text_column: "text"
+  label_column: "label"
+  max_length: 256          # Match model's max_seq_length
+  
+# Labels Configuration
+labels:
+  depression: 0
+  anxiety: 1
+  suicide: 2
+  label_names: ["Depression", "Anxiety", "Suicide"]
+  
+# Paths
+paths:
+  model_save_dir: "models/"
+  log_dir: "logs/"
+  vocab_path: "data/vocab.json"
+  
+# Logging
+logging:
+  use_wandb: false
+  project_name: "mental-health-classifier"
+  experiment_name: "transformer-v1"
+  log_level: "INFO"
+  
+# Device
+device: "cpu"  # Changed from mps due to compatibility issues
+
+# Clinical Vocabulary Integration
+clinical_vocab:
+  use_umls: true
+  umls_api_key: null  # Set your UMLS API key
+  expand_synonyms: true
+  semantic_types:
+    - "Disease or Syndrome"
+    - "Sign or Symptom" 
+    - "Mental or Behavioral Dysfunction"

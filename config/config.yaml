@@ -50,7 +50,22 @@ logging:
   log_level: "INFO"
   
 # Device
-device: "cpu"  # Changed from mps due to compatibility issues
+device: "cpu"  # CPU is now the default and recommended device
+
+# CPU Training Profile (Default)
+profiles:
+  cpu_default:
+    device: "cpu"
+    model:
+      n_embd: 256
+      n_layer: 3
+      num_heads: 4
+      dropout: 0.3
+    training:
+      batch_size: 16
+      learning_rate: 0.00005
+      num_epochs: 5
+      weight_decay: 0.1
 
 # Clinical Vocabulary Integration
 clinical_vocab:

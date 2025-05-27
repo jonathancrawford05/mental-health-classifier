@@ -1,0 +1,60 @@
+# Ultra-Conservative Configuration for macOS
+# This should work with the full training pipeline
+
+model:
+  name: "MentalHealthTransformer_UltraConservative"
+  vocab_size: 200           # Very small vocabulary
+  n_embd: 16               # Tiny embedding dimension
+  num_heads: 1             # Single attention head
+  n_layer: 1               # Single layer
+  num_classes: 3
+  max_seq_length: 32       # Very short sequences
+  dropout: 0.0             # No dropout for simplicity
+
+training:
+  batch_size: 1            # Single sample batches
+  learning_rate: 0.01      # Higher LR for faster convergence
+  weight_decay: 0.0        # No weight decay
+  num_epochs: 1            # Single epoch
+  warmup_steps: 0          # No warmup
+  gradient_clip_norm: 1.0
+  save_every: 1000
+  eval_every: 1000
+  num_workers: 0           # No multiprocessing
+
+data:
+  train_path: "data/train.csv"
+  val_path: "data/val.csv"
+  test_path: "data/test.csv"
+  text_column: "text"
+  label_column: "label"
+  max_length: 32           # Very short text
+  batch_size: 1            # Single samples
+  num_workers: 0           # No multiprocessing
+
+labels:
+  depression: 0
+  anxiety: 1
+  suicide: 2
+  label_names: ["Depression", "Anxiety", "Suicide"]
+
+paths:
+  model_save_dir: "models/"
+  log_dir: "logs/"
+  vocab_path: "data/vocab.json"
+
+logging:
+  use_wandb: false
+  project_name: "mental-health-classifier"
+  experiment_name: "ultra-conservative"
+  log_level: "INFO"
+
+device: "cpu"
+
+clinical_vocab:
+  use_umls: false
+  umls_api_key: null
+  expand_synonyms: false
+
+tags: ["ultra-conservative", "cpu-only", "single-batch"]
+description: "Ultra-conservative settings for macOS compatibility"

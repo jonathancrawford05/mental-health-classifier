@@ -1,9 +1,8 @@
 {
   "project_name": "mental-health-classifier",
   "created_at": "2025-05-25T07:28:41.401796",
-  "last_updated": "2025-05-25T18:00:00.000000",
+  "last_updated": "2025-05-26T19:46:11.818150",
   "consolidation_date": "2025-05-25T18:00:00.000000",
-  
   "production_models": {
     "baseline_v1": {
       "path": "models/production/baseline_v1",
@@ -29,9 +28,8 @@
       "recommendation": "Best balanced performance for production use",
       "training_completed": "2025-05-25T13:15:14.223068"
     },
-    
     "medium_v1": {
-      "path": "models/production/medium_v1", 
+      "path": "models/production/medium_v1",
       "original_experiment": "medium_model_v2_20250525_131811",
       "architecture": {
         "name": "MentalHealthTransformer_Medium",
@@ -55,16 +53,14 @@
       "training_completed": "2025-05-25T17:36:10.198144"
     }
   },
-  
   "archived_models": {
     "baseline_small_reference": {
       "path": "experiments/archived/baseline_small_reference",
-      "original_experiment": "baseline_small_20250525_105621", 
+      "original_experiment": "baseline_small_20250525_105621",
       "status": "archived",
       "purpose": "Reference implementation for reproducibility testing"
     }
   },
-  
   "debug_models": {
     "baseline_ultra_micro_reference": {
       "path": "experiments/debug_archive/baseline_ultra_micro_reference",
@@ -73,13 +69,11 @@
       "purpose": "Minimal architecture for debugging purposes"
     }
   },
-  
   "model_recommendations": {
     "production_deployment": "baseline_v1",
-    "high_capacity_experiments": "medium_v1", 
+    "high_capacity_experiments": "medium_v1",
     "debugging_reference": "baseline_ultra_micro_reference"
   },
-  
   "consolidation_summary": {
     "total_experiments_before": 23,
     "experiments_moved_to_production": 2,
@@ -89,11 +83,133 @@
     "space_saved_estimate": "2-3 GB",
     "cleanup_date": "2025-05-25"
   },
-  
   "next_steps": [
     "Retrain medium_v1 model with improved hyperparameters for depression class",
-    "Set up automated cleanup for future debug experiments", 
+    "Set up automated cleanup for future debug experiments",
     "Implement model versioning and A/B testing framework",
     "Add performance monitoring for production models"
-  ]
+  ],
+  "active_experiments": {
+    "manual_training_20250526_180022": {
+      "experiment_name": "manual_training",
+      "created_at": "2025-05-26T18:00:22.822400",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "manual_training_20250526_180440": {
+      "experiment_name": "manual_training",
+      "created_at": "2025-05-26T18:04:40.929183",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "test_simple_20250526_180924": {
+      "experiment_name": "test_simple",
+      "created_at": "2025-05-26T18:09:24.538312",
+      "experiment_category": "debug",
+      "status": "running"
+    },
+    "test_fix_20250526_181229": {
+      "experiment_name": "test_fix",
+      "created_at": "2025-05-26T18:12:29.782052",
+      "experiment_category": "debug",
+      "status": "completed",
+      "completed_at": "2025-05-26T18:12:29.796174",
+      "final_metrics": {
+        "accuracy": 0.6,
+        "f1_macro": 0.5
+      },
+      "promotion_candidate": true,
+      "archival_pending": false
+    },
+    "manual_training_20250526_181256": {
+      "experiment_name": "manual_training",
+      "created_at": "2025-05-26T18:12:56.494340",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "simple_test_20250526_181530": {
+      "experiment_name": "simple_test",
+      "created_at": "2025-05-26T18:15:30.000399",
+      "experiment_category": "debug",
+      "status": "completed",
+      "completed_at": "2025-05-26T18:15:30.014578",
+      "final_metrics": {
+        "accuracy": 0.55,
+        "f1_macro": 0.5,
+        "loss": 0.7
+      },
+      "promotion_candidate": true,
+      "archival_pending": false
+    },
+    "stable_training_20250526_181557": {
+      "experiment_name": "stable_training",
+      "created_at": "2025-05-26T18:15:57.479884",
+      "experiment_category": "baseline",
+      "status": "completed",
+      "completed_at": "2025-05-26T18:15:57.494164",
+      "final_metrics": {
+        "accuracy": 0.45,
+        "f1_macro": 0.4,
+        "loss": 0.9
+      },
+      "promotion_candidate": false,
+      "archival_pending": false
+    },
+    "stable_test_20250526_181631": {
+      "experiment_name": "stable_test",
+      "created_at": "2025-05-26T18:16:31.466509",
+      "experiment_category": "debug",
+      "status": "running"
+    },
+    "ultra_safe_20250526_181826": {
+      "experiment_name": "ultra_safe",
+      "created_at": "2025-05-26T18:18:26.841732",
+      "experiment_category": "baseline",
+      "status": "completed",
+      "completed_at": "2025-05-26T18:18:27.594783",
+      "final_metrics": {
+        "pipeline_test": 0,
+        "error": 1
+      },
+      "promotion_candidate": false,
+      "archival_pending": false
+    },
+    "production_v2_20250526_182030": {
+      "experiment_name": "production_v2",
+      "created_at": "2025-05-26T18:20:30.481449",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "simple_cpu_training_20250526_183035": {
+      "experiment_name": "simple_cpu_training",
+      "created_at": "2025-05-26T18:30:35.898432",
+      "experiment_category": "baseline",
+      "status": "completed",
+      "completed_at": "2025-05-26T18:32:09.880617",
+      "final_metrics": {
+        "accuracy": 1.0,
+        "f1_macro": 1.0,
+        "best_val_f1": 1.0
+      },
+      "promotion_candidate": true,
+      "archival_pending": false
+    },
+    "fixed_cpu_training_20250526_192349": {
+      "experiment_name": "fixed_cpu_training",
+      "created_at": "2025-05-26T19:23:49.498612",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "medium_cpu_experiment_20250526_194611": {
+      "experiment_name": "medium_cpu_experiment",
+      "created_at": "2025-05-26T19:46:11.802249",
+      "experiment_category": "debug",
+      "status": "running"
+    }
+  },
+  "tracking_metadata": {
+    "total_experiments_run": 13,
+    "experiments_promoted_to_production": 0,
+    "experiments_auto_archived": 0
+  }
 }

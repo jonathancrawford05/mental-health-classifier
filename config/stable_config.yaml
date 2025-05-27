@@ -1,0 +1,60 @@
+# Minimal Configuration for Avoiding Bus Errors
+# Use this for stable training on macOS
+
+model:
+  name: "MentalHealthTransformer_Micro"
+  vocab_size: 1000      # Reduced from 10000
+  n_embd: 64            # Reduced from 256
+  num_heads: 2          # Reduced from 4
+  n_layer: 2            # Reduced from 3
+  num_classes: 3
+  max_seq_length: 128   # Reduced from 256
+  dropout: 0.1
+
+training:
+  batch_size: 4         # Reduced from 32
+  learning_rate: 0.001  # Increased for faster convergence
+  weight_decay: 0.01
+  num_epochs: 3         # Reduced for testing
+  warmup_steps: 10      # Reduced
+  gradient_clip_norm: 1.0
+  save_every: 100
+  eval_every: 50
+  num_workers: 0        # IMPORTANT: No multiprocessing
+
+data:
+  train_path: "data/train.csv"
+  val_path: "data/val.csv"
+  test_path: "data/test.csv"
+  text_column: "text"
+  label_column: "label"
+  max_length: 128       # Reduced
+  batch_size: 4         # Reduced
+  num_workers: 0        # IMPORTANT: No multiprocessing
+
+labels:
+  depression: 0
+  anxiety: 1
+  suicide: 2
+  label_names: ["Depression", "Anxiety", "Suicide"]
+
+paths:
+  model_save_dir: "models/"
+  log_dir: "logs/"
+  vocab_path: "data/vocab.json"
+
+logging:
+  use_wandb: false
+  project_name: "mental-health-classifier"
+  experiment_name: "stable-training"
+  log_level: "INFO"
+
+device: "cpu"           # Force CPU to avoid MPS issues
+
+clinical_vocab:
+  use_umls: false       # Disable for stability
+  umls_api_key: null
+  expand_synonyms: false
+
+tags: ["stable", "cpu-only", "micro"]
+description: "Stable micro configuration avoiding bus errors"

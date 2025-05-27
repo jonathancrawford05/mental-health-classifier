@@ -43,6 +43,14 @@ def parse_args():
     )
     
     parser.add_argument(
+        "--mode",
+        type=str,
+        choices=["standard", "simple-cpu"],
+        default="standard",
+        help="Training mode: standard (full pipeline) or simple-cpu (proven CPU approach)"
+    )
+    
+    parser.add_argument(
         "--create-sample-data",
         action="store_true",
         help="Create sample dataset for testing"
@@ -68,6 +76,12 @@ def parse_args():
         choices=["auto", "cpu", "cuda", "mps"],
         default="auto",
         help="Device to use for training"
+    )
+    
+    parser.add_argument(
+        "--experiment-summary",
+        action="store_true",
+        help="Show experiment summary before training"
     )
     
     return parser.parse_args()
@@ -104,43 +118,12 @@ def main():
     # Set random seeds
     set_random_seeds(args.seed)
     
+    # For standard mode, just print a recommendation and continue with original flow
+    print("⚠️  Standard mode is deprecated. Use --mode simple-cpu for better results.")
+    print("   Continuing with original training approach...\n")
+    
     # Setup device
     device = setup_device(args.device)
-    
-    # Create sample data if requested
-    if args.create_sample_data:
-        logging.info(f"Creating sample dataset with {args.sample_size} samples")
-        
-        os.makedirs("data", exist_ok=True)
-        create_sample_data("data/sample_train.csv", args.sample_size)
-        
-        # Create train/val/test splits
-        import pandas as pd
-        df = pd.read_csv("data/sample_train.csv")
-        
-        # First split: 80% train+val, 20% test
-        train_val_df, test_df = train_test_split(
-            df, test_size=0.2, random_state=args.seed, 
-            stratify=df['label']
-        )
-        
-        # Second split: 80% train, 20% val (of the remaining 80%)
-        train_df, val_df = train_test_split(
-            train_val_df, test_size=0.25, random_state=args.seed,
-            stratify=train_val_df['label']
-        )
-        
-        # Save splits
-        train_df.to_csv("data/train.csv", index=False)
-        val_df.to_csv("data/val.csv", index=False)
-        test_df.to_csv("data/test.csv", index=False)
-        
-        logging.info("Sample data created and split into train/val/test sets")
-        
-        # Update config paths
-        config['data']['train_path'] = "data/train.csv"
-        config['data']['val_path'] = "data/val.csv"
-        config['data']['test_path'] = "data/test.csv"
     
     # Initialize data processor
     data_processor = DataProcessor(config['data'])
@@ -236,43 +219,7 @@ def main():
     )
     
     logging.info("Training completed successfully!")
-    
-    # Interactive prediction example
-    if test_texts is not None:
-        print("\n" + "="*60)
-        print("INTERACTIVE PREDICTION EXAMPLE")
-        print("="*60)
-        
-        # Test with a few examples
-        sample_texts = [
-            "I feel hopeless and can't see any way out of this darkness",
-            "I'm constantly worried about everything and can't relax",
-            "I've been thinking about ending my life lately"
-        ]
-        
-        for text in sample_texts:
-            prediction, probabilities = trainer.predict_text(
-                text, data_processor, return_probabilities=True
-            )
-            
-            print(f"\nText: {text}")
-            print(f"Predicted class: {prediction}")
-            print("Probabilities:")
-            for label, prob in probabilities.items():
-                print(f"  {label}: {prob:.3f}")
-    
-    print("\n" + "="*60)
-    print("TRAINING COMPLETED SUCCESSFULLY!")
-    print("="*60)
-    print("Use 'python predict.py' to test the trained model.")
-    
-    # Force cleanup to prevent hanging
-    import matplotlib
-    matplotlib.pyplot.close('all')
-    
-    # Exit cleanly
-    import sys
-    sys.exit(0)
+    return True
 
 
 if __name__ == "__main__":

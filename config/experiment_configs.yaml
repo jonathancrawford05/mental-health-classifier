@@ -1,0 +1,286 @@
+# Configuration templates for systematic architecture exploration
+
+# Ultra-micro configuration for debugging and quick testing
+baseline_ultra_micro:
+  model:
+    name: "MentalHealthTransformer_UltraMicro"
+    vocab_size: 100    # Ultra small vocab
+    n_embd: 32         # Ultra small embedding
+    num_heads: 1       # Single head  
+    n_layer: 1         # Single layer
+    num_classes: 3
+    max_seq_length: 8  # Ultra short sequences
+    dropout: 0.1
+  
+  training:
+    batch_size: 1      # Single sample batches
+    learning_rate: 0.01
+    weight_decay: 0.0
+    num_epochs: 1      # Just 1 epoch
+    gradient_clip_norm: 1.0
+  
+  tags: ["ultra-micro", "debug", "minimal"]
+  description: "Ultra-micro model for debugging and quick testing"
+
+# Micro configuration for small-scale testing
+baseline_micro:
+  model:
+    name: "MentalHealthTransformer_Micro"
+    vocab_size: 500    # Very small vocab
+    n_embd: 64         # Very small embedding
+    num_heads: 2       # Minimal heads  
+    n_layer: 1         # Single layer
+    num_classes: 3
+    max_seq_length: 32 # Very short sequences
+    dropout: 0.1
+  
+  training:
+    batch_size: 4      # Tiny batches
+    learning_rate: 0.001
+    weight_decay: 0.01
+    num_epochs: 2      # Just 2 epochs
+    gradient_clip_norm: 1.0
+  
+  tags: ["micro", "debug", "tiny"]
+  description: "Micro model for small-scale testing"
+
+# Baseline - Current Model (Small)
+baseline_small:
+  model:
+    name: "MentalHealthTransformer_Baseline"
+    vocab_size: 10000
+    n_embd: 256
+    num_heads: 4
+    n_layer: 3
+    num_classes: 3
+    max_seq_length: 256
+    dropout: 0.3
+  
+  training:
+    batch_size: 32
+    learning_rate: 0.00005
+    weight_decay: 0.1
+    num_epochs: 5
+    gradient_clip_norm: 1.0
+  
+  tags: ["baseline", "small", "3-layer", "256-dim"]
+  description: "Original small architecture for baseline comparison"
+
+# Medium Model - First Scale Up
+medium_model:
+  model:
+    name: "MentalHealthTransformer_Medium"
+    vocab_size: 15000
+    n_embd: 512
+    num_heads: 8
+    n_layer: 6
+    num_classes: 3
+    max_seq_length: 512
+    dropout: 0.2
+  
+  training:
+    batch_size: 16
+    learning_rate: 0.0001
+    weight_decay: 0.05
+    num_epochs: 10
+    gradient_clip_norm: 1.0
+  
+  tags: ["medium", "scaled-up", "6-layer", "512-dim"]
+  description: "Medium-sized model with doubled capacity"
+
+# Medium Model v2 - Optimized based on small model success
+medium_model_v2:
+  model:
+    name: "MentalHealthTransformer_Medium_V2"
+    vocab_size: 15000
+    n_embd: 512
+    num_heads: 8
+    n_layer: 6
+    num_classes: 3
+    max_seq_length: 512
+    dropout: 0.2
+  
+  training:
+    batch_size: 16
+    learning_rate: 0.00005  # Lower LR like successful small model
+    weight_decay: 0.1       # Higher weight decay like small model
+    num_epochs: 8           # More epochs than original medium
+    gradient_clip_norm: 1.0
+  
+  tags: ["medium", "v2", "optimized", "lower-lr"]
+  description: "Medium model optimized with small model's successful hyperparameters"
+
+# Large Model - Full Scale
+large_model:
+  model:
+    name: "MentalHealthTransformer_Large"
+    vocab_size: 20000
+    n_embd: 768
+    num_heads: 12
+    n_layer: 12
+    num_classes: 3
+    max_seq_length: 1024
+    dropout: 0.1
+  
+  training:
+    batch_size: 8
+    learning_rate: 0.0002
+    weight_decay: 0.01
+    num_epochs: 15
+    gradient_clip_norm: 0.5
+  
+  tags: ["large", "full-scale", "12-layer", "768-dim"]
+  description: "Large model for maximum performance"
+
+# Large Model v2 - Optimized based on small model success  
+large_model_v2:
+  model:
+    name: "MentalHealthTransformer_Large_V2"
+    vocab_size: 20000
+    n_embd: 768
+    num_heads: 12
+    n_layer: 12
+    num_classes: 3
+    max_seq_length: 1024
+    dropout: 0.1
+  
+  training:
+    batch_size: 8
+    learning_rate: 0.00005  # Much lower LR for large model stability
+    weight_decay: 0.1       # Higher weight decay to prevent overfitting
+    num_epochs: 10          # Reasonable epoch count
+    gradient_clip_norm: 1.0 # Standard clipping
+  
+  tags: ["large", "v2", "optimized", "stable-training"]
+  description: "Large model optimized for stable training with proven hyperparameters"
+
+# UMLS Enhanced - Medium + Clinical Vocabulary
+umls_enhanced:
+  model:
+    name: "MentalHealthTransformer_UMLS"
+    vocab_size: 25000  # Expanded for clinical terms
+    n_embd: 512
+    num_heads: 8
+    n_layer: 6
+    num_classes: 3
+    max_seq_length: 512
+    dropout: 0.2
+  
+  clinical_vocab:
+    use_umls: true
+    expand_synonyms: true
+    semantic_types:
+      - "Disease or Syndrome"
+      - "Sign or Symptom"
+      - "Mental or Behavioral Dysfunction"
+    clinical_embedding_boost: 1.5  # Boost clinical term embeddings
+  
+  training:
+    batch_size: 16
+    learning_rate: 0.0001
+    weight_decay: 0.05
+    num_epochs: 12
+    clinical_loss_weight: 2.0  # Extra weight for clinical accuracy
+  
+  tags: ["umls", "clinical-vocab", "enhanced", "domain-specific"]
+  description: "Medium model enhanced with UMLS clinical vocabulary"
+
+# Curriculum Learning - Progressive Training
+curriculum_model:
+  model:
+    name: "MentalHealthTransformer_Curriculum"
+    vocab_size: 15000
+    n_embd: 512
+    num_heads: 8
+    n_layer: 6
+    num_classes: 3
+    max_seq_length: 512
+    dropout: 0.2
+  
+  training:
+    curriculum_learning: true
+    curriculum_stages:
+      - stage: "easy"
+        epochs: 3
+        difficulty_threshold: 0.8
+        learning_rate: 0.0002
+      - stage: "medium" 
+        epochs: 4
+        difficulty_threshold: 0.5
+        learning_rate: 0.0001
+      - stage: "hard"
+        epochs: 5
+        difficulty_threshold: 0.0
+        learning_rate: 0.00005
+    
+    batch_size: 16
+    weight_decay: 0.05
+    gradient_clip_norm: 1.0
+  
+  tags: ["curriculum", "progressive", "staged-training"]
+  description: "Progressive training from easy to difficult samples"
+
+# Multi-Task Learning - Joint Training
+multitask_model:
+  model:
+    name: "MentalHealthTransformer_MultiTask"
+    vocab_size: 15000
+    n_embd: 512
+    num_heads: 8
+    n_layer: 6
+    num_classes: 3
+    max_seq_length: 512
+    dropout: 0.2
+    
+    # Additional heads for auxiliary tasks
+    auxiliary_tasks:
+      - sentiment_classification: 3  # positive, negative, neutral
+      - severity_regression: 1       # severity score 0-10
+      - urgency_classification: 2    # urgent vs non-urgent
+  
+  training:
+    batch_size: 16
+    learning_rate: 0.0001
+    weight_decay: 0.05
+    num_epochs: 12
+    
+    # Task weights
+    task_weights:
+      main_classification: 1.0
+      sentiment_classification: 0.3
+      severity_regression: 0.5
+      urgency_classification: 0.7
+  
+  tags: ["multitask", "auxiliary-tasks", "joint-training"]
+  description: "Multi-task learning with auxiliary clinical tasks"
+
+# Attention Analysis - Interpretable Model
+interpretable_model:
+  model:
+    name: "MentalHealthTransformer_Interpretable"
+    vocab_size: 15000
+    n_embd: 512
+    num_heads: 8
+    n_layer: 6
+    num_classes: 3
+    max_seq_length: 512
+    dropout: 0.2
+    
+    # Enhanced attention tracking
+    attention_analysis:
+      save_attention_weights: true
+      attention_regularization: 0.01
+      interpretability_loss: 0.1
+  
+  training:
+    batch_size: 16
+    learning_rate: 0.0001
+    weight_decay: 0.05
+    num_epochs: 10
+    
+    # Special training for interpretability
+    attention_supervision: true
+    clinical_attention_boost: 1.2
+  
+  tags: ["interpretable", "attention-analysis", "explainable"]
+  description: "Model optimized for attention analysis and interpretability"

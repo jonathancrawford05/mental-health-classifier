@@ -1,0 +1,99 @@
+{
+  "project_name": "mental-health-classifier",
+  "created_at": "2025-05-25T07:28:41.401796",
+  "last_updated": "2025-05-25T18:00:00.000000",
+  "consolidation_date": "2025-05-25T18:00:00.000000",
+  
+  "production_models": {
+    "baseline_v1": {
+      "path": "models/production/baseline_v1",
+      "original_experiment": "small_data_10k_20250525_130522",
+      "architecture": {
+        "name": "MentalHealthTransformer_Baseline",
+        "vocab_size": 10000,
+        "n_embd": 256,
+        "num_heads": 4,
+        "n_layer": 3,
+        "num_classes": 3,
+        "max_seq_length": 256,
+        "dropout": 0.3
+      },
+      "performance": {
+        "accuracy": 0.582,
+        "f1_macro": 0.5301948257577135,
+        "f1_depression": 0.22443890274314215,
+        "f1_anxiety": 0.5909849749582637,
+        "f1_suicide": 0.7751605995717344
+      },
+      "status": "production_ready",
+      "recommendation": "Best balanced performance for production use",
+      "training_completed": "2025-05-25T13:15:14.223068"
+    },
+    
+    "medium_v1": {
+      "path": "models/production/medium_v1", 
+      "original_experiment": "medium_model_v2_20250525_131811",
+      "architecture": {
+        "name": "MentalHealthTransformer_Medium",
+        "vocab_size": 15000,
+        "n_embd": 512,
+        "num_heads": 8,
+        "n_layer": 6,
+        "num_classes": 3,
+        "max_seq_length": 512,
+        "dropout": 0.2
+      },
+      "performance": {
+        "accuracy": 0.563,
+        "f1_macro": 0.4534382563076968,
+        "f1_depression": 0.0,
+        "f1_anxiety": 0.623059866962306,
+        "f1_suicide": 0.7372549019607844
+      },
+      "status": "needs_tuning",
+      "recommendation": "High capacity model with depression class issues - needs hyperparameter tuning",
+      "training_completed": "2025-05-25T17:36:10.198144"
+    }
+  },
+  
+  "archived_models": {
+    "baseline_small_reference": {
+      "path": "experiments/archived/baseline_small_reference",
+      "original_experiment": "baseline_small_20250525_105621", 
+      "status": "archived",
+      "purpose": "Reference implementation for reproducibility testing"
+    }
+  },
+  
+  "debug_models": {
+    "baseline_ultra_micro_reference": {
+      "path": "experiments/debug_archive/baseline_ultra_micro_reference",
+      "original_experiment": "baseline_ultra_micro_20250525_175611",
+      "status": "debug_reference",
+      "purpose": "Minimal architecture for debugging purposes"
+    }
+  },
+  
+  "model_recommendations": {
+    "production_deployment": "baseline_v1",
+    "high_capacity_experiments": "medium_v1", 
+    "debugging_reference": "baseline_ultra_micro_reference"
+  },
+  
+  "consolidation_summary": {
+    "total_experiments_before": 23,
+    "experiments_moved_to_production": 2,
+    "experiments_archived": 1,
+    "experiments_cleaned": 20,
+    "total_experiments_after": 3,
+    "space_saved_estimate": "2-3 GB",
+    "cleanup_date": "2025-05-25"
+  },
+  
+  "next_steps": [
+    "Retrain medium_v1 model with improved hyperparameters for depression class",
+    "Set up automated cleanup for future debug experiments", 
+    "Implement model versioning and A/B testing framework",
+    "Add performance monitoring for production models"
+  ]
+}

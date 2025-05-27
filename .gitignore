@@ -1,0 +1,63 @@
+# Mental Health Classifier - DO NOT COMMIT
+
+# Model files (large binary files)
+models/
+*.pt
+*.pkl
+*.pth
+
+# Data files
+data/
+*.csv
+*.json
+# Exclude requirements.txt and other important txt files
+# *.txt
+
+# Results and outputs
+results/
+logs/
+*.png
+*.jpg
+*.jpeg
+
+# Environment and dependencies
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# API keys and secrets
+.env
+*.key
+api_keys.txt
+
+# Temporary and debug files
+temp/
+tmp/
+# Be more specific about debug files
+# debug*
+# test_*
+*.log
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Poetry lock file (optional - some prefer to commit this)
+# poetry.lock

@@ -1,0 +1,60 @@
+# CPU-Optimized Configuration
+# Based on your successful baseline_v1 training
+# This configuration successfully trained a model with 58.2% accuracy
+
+model:
+  name: "MentalHealthTransformer_CPUOptimized"
+  vocab_size: 10000        # Same as successful training
+  n_embd: 256             # Same as successful training  
+  num_heads: 4            # Same as successful training
+  n_layer: 3              # Same as successful training
+  num_classes: 3
+  max_seq_length: 256     # Same as successful training
+  dropout: 0.3            # Same as successful training
+
+training:
+  batch_size: 16          # Reduced from 32 for stability
+  learning_rate: 0.00005  # Same as successful training (5e-05)
+  weight_decay: 0.1       # Same as successful training
+  num_epochs: 5           # Same as successful training
+  warmup_steps: 500       # Same as successful training
+  gradient_clip_norm: 1.0
+  save_every: 1000
+  eval_every: 200
+  num_workers: 0          # Force CPU-only data loading
+
+data:
+  train_path: "data/train.csv"
+  val_path: "data/val.csv"
+  test_path: "data/test.csv"
+  text_column: "text"
+  label_column: "label"
+  max_length: 256         # Same as successful training
+  num_workers: 0          # Force CPU-only data loading
+
+labels:
+  depression: 0
+  anxiety: 1
+  suicide: 2
+  label_names: ["Depression", "Anxiety", "Suicide"]
+
+paths:
+  model_save_dir: "models/"
+  log_dir: "logs/"
+  vocab_path: "data/vocab.json"
+
+logging:
+  use_wandb: false
+  project_name: "mental-health-classifier"
+  experiment_name: "cpu-optimized"
+  log_level: "INFO"
+
+device: "cpu"             # Force CPU device
+
+clinical_vocab:
+  use_umls: false         # Disabled for stability
+  umls_api_key: null
+  expand_synonyms: false
+
+tags: ["cpu-optimized", "baseline-replica", "stable"]
+description: "CPU-optimized training replicating successful baseline_v1 configuration"

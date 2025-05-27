@@ -1,7 +1,7 @@
 {
   "project_name": "mental-health-classifier",
   "created_at": "2025-05-25T07:28:41.401796",
-  "last_updated": "2025-05-26T19:46:11.818150",
+  "last_updated": "2025-05-26T20:17:20.995475",
   "consolidation_date": "2025-05-25T18:00:00.000000",
   "production_models": {
     "baseline_v1": {
@@ -205,10 +205,16 @@
       "created_at": "2025-05-26T19:46:11.802249",
       "experiment_category": "debug",
       "status": "running"
+    },
+    "large_cpu_experiment_20250526_201720": {
+      "experiment_name": "large_cpu_experiment",
+      "created_at": "2025-05-26T20:17:20.980300",
+      "experiment_category": "baseline",
+      "status": "running"
     }
   },
   "tracking_metadata": {
-    "total_experiments_run": 13,
+    "total_experiments_run": 14,
     "experiments_promoted_to_production": 0,
     "experiments_auto_archived": 0
   }

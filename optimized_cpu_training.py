@@ -336,11 +336,27 @@ def optimized_cpu_training():
                 train_loss += loss.item()
                 train_batches += 1
                 
-                # Progress update
-                if (batch_idx + 1) % 50 == 0:
+                # Enhanced progress update every 10 batches
+                if (batch_idx + 1) % 10 == 0 or batch_idx == 0:
                     elapsed = time.time() - epoch_start
-                    print(f"    Epoch {epoch+1}/{num_epochs}, Batch {batch_idx+1}/{len(dataloaders['train'])}: "
-                          f"Loss={loss.item():.4f}, Time={elapsed:.1f}s")
+                    avg_batch_time = elapsed / (batch_idx + 1)
+                    remaining_batches = len(dataloaders['train']) - (batch_idx + 1)
+                    eta_minutes = (remaining_batches * avg_batch_time) / 60
+                    progress_pct = ((batch_idx + 1) / len(dataloaders['train'])) * 100
+                    
+                    print(f"    📊 Batch {batch_idx+1:3d}/{len(dataloaders['train']):3d} | "
+                          f"Progress: {progress_pct:5.1f}% | "
+                          f"Loss: {loss.item():.4f} | "
+                          f"Avg Time/Batch: {avg_batch_time:.2f}s | "
+                          f"ETA: {eta_minutes:.1f}m")
+                
+                # Milestone progress every 25 batches
+                if (batch_idx + 1) % 25 == 0:
+                    total_elapsed = (time.time() - start_time.timestamp()) / 60
+                    epoch_elapsed = elapsed / 60
+                    print(f"    ⏱️  Milestone: {batch_idx+1} batches | "
+                          f"Epoch: {epoch_elapsed:.1f}m | "
+                          f"Total: {total_elapsed:.1f}m")
             
             avg_train_loss = train_loss / train_batches
             
@@ -373,14 +389,24 @@ def optimized_cpu_training():
             epoch_time = time.time() - epoch_start
             elapsed_total = (datetime.now() - start_time).total_seconds() / 3600
             
-            print(f"\\n📊 Epoch {epoch+1}/{num_epochs} Results:")
-            print(f"   Train Loss: {avg_train_loss:.4f}")
-            print(f"   Val Loss: {val_metrics['loss']:.4f}")
-            print(f"   Val Accuracy: {val_acc:.4f}")
-            print(f"   Val F1: {val_f1:.4f}")
-            print(f"   Best F1: {trainer.best_val_f1:.4f}")
-            print(f"   Epoch Time: {epoch_time/60:.1f} min")
-            print(f"   Total Time: {elapsed_total:.1f}h")
+            print(f"\n{'='*60}")
+            print(f"📋 EPOCH {epoch+1}/{num_epochs} RESULTS - {datetime.now().strftime('%H:%M:%S')}")
+            print(f"{'='*60}")
+            print(f"🏋️‍♂️ Training Loss: {avg_train_loss:.4f}")
+            print(f"🔍 Validation Loss: {val_metrics['loss']:.4f}")
+            print(f"🎯 Validation Accuracy: {val_acc:.4f}")
+            print(f"🏆 Validation F1: {val_f1:.4f} {' 🌟 NEW BEST!' if val_f1 > trainer.best_val_f1 else ''}")
+            print(f"📊 Best F1 So Far: {trainer.best_val_f1:.4f}")
+            print(f"⏱️ Epoch Time: {epoch_time/60:.1f} minutes")
+            print(f"🕐 Total Time: {elapsed_total:.1f} hours")
+            
+            # Performance trend
+            if len(trainer.history['val_f1']) >= 2:
+                prev_f1 = trainer.history['val_f1'][-2] if len(trainer.history['val_f1']) > 1 else 0
+                f1_change = val_f1 - prev_f1
+                trend = "📈" if f1_change > 0 else "📉" if f1_change < 0 else "➡️"
+                print(f"📊 F1 Trend: {trend} {f1_change:+.4f} from last epoch")
+            print(f"{'='*60}")
             
             # Log metrics
             epoch_metrics = {
@@ -398,7 +424,7 @@ def optimized_cpu_training():
             # Check early stopping
             should_stop = early_stopping(epoch + 1, val_f1, model.state_dict())
             if should_stop:
-                print(f"\\n🛑 Early stopping triggered!")
+                print(f"\n🛑 Early stopping triggered!")
                 break
         
         # Training completed
@@ -408,7 +434,7 @@ def optimized_cpu_training():
         # Early stopping summary
         es_summary = early_stopping.get_summary()
         
-        print(f"\\n✅ Training Completed!")
+        print(f"\n✅ Training Completed!")
         print(f"   Total time: {total_duration/60:.1f} minutes ({total_duration/3600:.1f} hours)")
         print(f"   Epochs completed: {epoch + 1}/{num_epochs}")
         if es_summary['stopped']:
@@ -422,7 +448,7 @@ def optimized_cpu_training():
             print(f"   ✅ Restored best model weights from epoch {early_stopping.best_epoch}")
         
         # Save all components
-        print(f"\\n💾 Saving Optimized Model:")
+        print(f"\n💾 Saving Optimized Model:")
         
         # Enhanced checkpoint
         best_model_path = models_dir / "best_model.pt"
@@ -458,7 +484,7 @@ def optimized_cpu_training():
         shutil.copy2(model_info_path, main_models_dir / "model_info.json")
         
         # Final evaluation
-        print(f"\\n📊 Final Evaluation:")
+        print(f"\n📊 Final Evaluation:")
         
         final_metrics = {
             'best_val_f1': trainer.best_val_f1,
@@ -490,7 +516,7 @@ def optimized_cpu_training():
         consolidated_tracker.finish_experiment(experiment_id, final_metrics=final_metrics)
         
         # Results summary
-        print(f"\\n🎉 OPTIMIZATION RESULTS:")
+        print(f"\n🎉 OPTIMIZATION RESULTS:")
         print(f"=" * 70)
         print(f"🆔 Experiment: {experiment_id}")
         print(f"⏱️ Training Time: {total_duration/60:.1f} min ({total_duration/3600:.1f}h)")
@@ -531,7 +557,7 @@ if __name__ == "__main__":
     success, exp_id, metrics = optimized_cpu_training()
     
     if success:
-        print(f"\\n✅ OPTIMIZATION SUCCESS!")
+        print(f"\n✅ OPTIMIZATION SUCCESS!")
         print(f"🆔 {exp_id}")
         print(f"🏆 F1: {metrics['best_val_f1']:.4f}")
         print(f"⏱️ Time: {metrics['training_duration_hours']:.1f}h")
@@ -540,7 +566,7 @@ if __name__ == "__main__":
             print(f"💡 Saved {metrics['epochs_saved']} epochs")
         
         # Quick test
-        print(f"\\n🔮 Testing optimized model...")
+        print(f"\n🔮 Testing optimized model...")
         try:
             from predict import MentalHealthPredictor
             predictor = MentalHealthPredictor()
@@ -553,10 +579,10 @@ if __name__ == "__main__":
             print(f"   Prediction: {prediction}")
             print(f"   Confidence: {max(probs.values()):.3f}")
             
-            print(f"\\n🎉 OPTIMIZED MODEL READY!")
+            print(f"\n🎉 OPTIMIZED MODEL READY!")
             
         except Exception as e:
             print(f"⚠️ Model test issue: {e}")
             
     else:
-        print(f"\\n❌ Optimization failed")
+        print(f"\n❌ Optimization failed")

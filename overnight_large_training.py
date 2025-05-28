@@ -207,7 +207,7 @@ def overnight_large_training():
         print(f"   Max duration: {config['early_stopping']['max_training_hours']} hours")
         print(f"   Early stopping: F1 > {config['early_stopping']['performance_threshold']}")
         print(f"   Patience: {config['early_stopping']['patience']} epochs")
-        print(f"   Expected completion: {(datetime.now().timestamp() + estimated_total_time*3600).__format__('%H:%M')} (tomorrow morning)")
+        print(f"   Expected completion: {datetime.fromtimestamp(datetime.now().timestamp() + estimated_total_time*3600).strftime('%H:%M')} (tomorrow morning)")
         
         early_stopping.start_training()
         start_time = datetime.now()
@@ -295,7 +295,7 @@ def overnight_large_training():
             print(f"   Best F1: {trainer.best_val_f1:.4f}")
             print(f"   Epoch Time: {epoch_time/60:.1f} min")
             print(f"   Total Time: {elapsed_total:.1f}h")
-            print(f"   Est. Completion: {(datetime.now().timestamp() + (estimated_total_time - elapsed_total)*3600).__format__('%H:%M')}")
+            print(f"   Est. Completion: {datetime.fromtimestamp(datetime.now().timestamp() + (estimated_total_time - elapsed_total)*3600).strftime('%H:%M')}")
             
             # Log metrics
             consolidated_tracker.log_metrics(experiment_id, {

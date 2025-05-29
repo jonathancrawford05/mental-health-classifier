@@ -1,40 +1,69 @@
-# Mental Health Classifier - DO NOT COMMIT
+# Mental Health Classifier - Git Ignore
+# Generated for production ML project
 
-# Model files (large binary files)
-models/
-*.pt
-*.pkl
-*.pth
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Data files
-data/
-*.csv
-*.json
-# Exclude requirements.txt and other important txt files
-# *.txt
-
-# Results and outputs
-results/
-logs/
-*.png
-*.jpg
-*.jpeg
-
-# Environment and dependencies
+# Virtual Environment
 .venv/
 venv/
-__pycache__/
-*.pyc
-*.pyo
+ENV/
+env/
+.env
 
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Jupyter Notebooks
+.ipynb_checkpoints
 
-# OS generated files
+# PyTorch Models (keep specific ones, ignore temp)
+models/best_model.pt.backup
+models/best_model.pt.3class_backup
+models/vocab.pkl.backup
+models/vocab.pkl.3class_backup
+models/model_info.json.backup
+models/model_info.json.3class_backup
+*.pt.temp
+*.pkl.temp
+
+# Training Logs and Temp Files
+*.log
+logs/
+*.tmp
+temp/
+.cache/
+
+# Data - Large CSV files (comment out if you want to track them)
+# data/*.csv
+# Uncomment above if data files are too large for git
+
+# Experiment Results - Keep important ones, ignore temp
+edge_case_results_temp.json
+*_temp.json
+experiments/*/temp/
+model_snapshots/temp/
+
+# OS Files
 .DS_Store
 .DS_Store?
 ._*
@@ -43,21 +72,29 @@ __pycache__/
 ehthumbs.db
 Thumbs.db
 
-# API keys and secrets
-.env
-*.key
-api_keys.txt
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# Temporary and debug files
-temp/
-tmp/
-# Be more specific about debug files
-# debug*
-# test_*
-*.log
+# Matplotlib/Seaborn plots (temporary)
+*.png.temp
+confusion_matrix_temp.png
 
-# Jupyter notebook checkpoints
-.ipynb_checkpoints/
+# Large model checkpoints (keep final ones)
+saved_models/temp/
+experiments/*/models/checkpoint_*.pt
 
-# Poetry lock file (optional - some prefer to commit this)
-# poetry.lock
+# Archive directories
+archive/experimental/
+experiments/*/archive/
+
+# Backup directories
+backup/
+*_backup/
+
+# Test outputs (temporary)
+test_output_*.json
+debug_*.txt

@@ -1,7 +1,7 @@
 {
   "project_name": "mental-health-classifier",
   "created_at": "2025-05-25T07:28:41.401796",
-  "last_updated": "2025-05-27T20:08:54.891035",
+  "last_updated": "2025-05-28T17:56:29.187479",
   "consolidation_date": "2025-05-25T18:00:00.000000",
   "production_models": {
     "baseline_v1": {
@@ -271,10 +271,42 @@
       "created_at": "2025-05-27T20:08:54.875036",
       "experiment_category": "baseline",
       "status": "running"
+    },
+    "safe_4class_training_20250528_024635": {
+      python create_proper_4class_dataset.py
+
+      "experiment_name": "safe_4class_training",
+      "created_at": "2025-05-28T02:46:35.218975",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "fixed_4class_training_20250528_024951": {
+      "experiment_name": "fixed_4class_training",
+      "created_at": "2025-05-28T02:49:51.763677",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "enhanced_4class_50pct_normal_20250528_030444": {
+      "experiment_name": "enhanced_4class_50pct_normal",
+      "created_at": "2025-05-28T03:04:44.417068",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "fixed_4class_perfect_balance_20250528_033424": {
+      "experiment_name": "fixed_4class_perfect_balance",
+      "created_at": "2025-05-28T03:34:24.729888",
+      "experiment_category": "baseline",
+      "status": "running"
+    },
+    "fixed_4class_perfect_balance_20250528_175629": {
+      "experiment_name": "fixed_4class_perfect_balance",
+      "created_at": "2025-05-28T17:56:29.170947",
+      "experiment_category": "baseline",
+      "status": "running"
     }
   },
   "tracking_metadata": {
-    "total_experiments_run": 24,
+    "total_experiments_run": 29,
     "experiments_promoted_to_production": 0,
     "experiments_auto_archived": 0
   }

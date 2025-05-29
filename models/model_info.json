@@ -1,0 +1,33 @@
+{
+  "model_config": {
+    "vocab_size": 365,
+    "n_embd": 512,
+    "num_heads": 8,
+    "n_layer": 6,
+    "num_classes": 4,
+    "max_seq_length": 512,
+    "dropout": 0.1
+  },
+  "vocab_size": 365,
+  "num_classes": 4,
+  "class_names": [
+    "Anxiety",
+    "Depression",
+    "Suicide",
+    "Normal"
+  ],
+  "test_accuracy": 1.0,
+  "best_val_accuracy": 1.0,
+  "training_samples": 16002,
+  "dataset_scale": "20k_4class",
+  "total_parameters": 19366404,
+  "training_duration_hours": 0.9052751957707935,
+  "timestamp": "2025-05-29T03:55:52.132387",
+  "label_mapping": {
+    "anxiety": 0,
+    "depression": 1,
+    "suicide": 2,
+    "normal": 3
+  },
+  "classification_report": "              precision    recall  f1-score   support\n\n     Anxiety     1.0000    1.0000    1.0000       500\n  Depression     1.0000    1.0000    1.0000       500\n     Suicide     1.0000    1.0000    1.0000       500\n      Normal     1.0000    1.0000    1.0000       500\n\n    accuracy                         1.0000      2000\n   macro avg     1.0000    1.0000    1.0000      2000\nweighted avg     1.0000    1.0000    1.0000      2000\n"
+}

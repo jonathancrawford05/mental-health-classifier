@@ -1,5 +1,5 @@
 # Mental Health Classifier - Requirements
-# Production-ready dependencies for 4-class model
+# Production-ready dependencies for 4-class model + API server
 
 # Core ML/NLP
 torch>=1.9.0
@@ -10,6 +10,12 @@ scikit-learn>=1.0.0
 # Data Processing
 pandas>=1.3.0
 numpy>=1.21.0
+
+# API Server (FastAPI stack)
+fastapi>=0.70.0
+uvicorn[standard]>=0.15.0
+pydantic>=1.8.0
+requests>=2.25.0
 
 # Visualization (for confusion matrices and plots)
 matplotlib>=3.4.0
@@ -24,29 +30,25 @@ nltk>=3.6.0
 # JSON/Serialization
 pickle5>=0.0.11; python_version < "3.8"
 
-# Utilities
-pathlib; python_version < "3.4"
-datetime
-collections
-json
-re
-sys
-os
-time
-warnings
-
-# Optional: Development tools
+# Development tools
 pytest>=6.0.0  # For testing
 jupyter>=1.0.0  # For notebooks
 black>=21.0.0   # For code formatting
 flake8>=3.9.0   # For linting
 
-# Optional: Production deployment
-fastapi>=0.70.0     # For API server
-uvicorn>=0.15.0     # ASGI server
+# Production deployment
 gunicorn>=20.0.0    # WSGI server
-pydantic>=1.8.0     # Data validation
+python-multipart>=0.0.5  # For file uploads
 
 # Optional: Monitoring
-wandb>=0.12.0       # Experiment tracking
-tensorboard>=2.7.0  # Logging
+# wandb>=0.12.0       # Experiment tracking
+# tensorboard>=2.7.0  # Logging
+
+# Optional: Database (uncomment if needed)
+# psycopg2-binary>=2.8.0  # PostgreSQL
+# sqlalchemy>=1.4.0       # ORM
+# alembic>=1.7.0          # Migrations
+
+# Optional: Caching (uncomment if needed)  
+# redis>=3.5.0            # Redis client
+# celery>=5.2.0           # Task queue

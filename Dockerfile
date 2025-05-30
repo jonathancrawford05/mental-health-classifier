@@ -1,4 +1,5 @@
 # Mental Health Classifier - Production API
+# Use Python base and install PyTorch with minimal dependencies
 FROM python:3.9-slim
 
 # Set working directory
@@ -10,9 +11,15 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies
+# Install minimal PyTorch for CPU inference only
+RUN pip install --no-cache-dir torch==2.0.1 torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cpu
+
+# Copy requirements and install remaining Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Download NLTK data during build (not at runtime)
+RUN python -c "import nltk; nltk.download('punkt_tab'); nltk.download('stopwords')"
 
 # Copy application code
 COPY src/ ./src/

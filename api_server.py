@@ -22,7 +22,7 @@ sys.path.insert(0, str(src_path))
 
 from models import MentalHealthClassifier
 from data import ClinicalTextPreprocessor
-from torchtext.data.utils import get_tokenizer
+from data.data_processor import simple_tokenizer
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -110,7 +110,7 @@ class ModelService:
             
             # Initialize preprocessor
             self.preprocessor = ClinicalTextPreprocessor()
-            self.tokenizer = get_tokenizer('basic_english')
+            self.tokenizer = simple_tokenizer
             
             # Update label names if available
             if 'class_names' in checkpoint:

@@ -1,140 +1,160 @@
-# Mental Health Classifier - Deployment Guide
+# 🚀 Mental Health Classifier - Docker Deployment Guide
 
-## 🎯 **Your Production-Ready System**
+## Quick Deploy (Docker)
 
-You have successfully created a complete mental health classification system with:
+### Prerequisites
+- Docker Desktop installed
+- 2GB+ available RAM
+- Internet connection for downloading dependencies
 
-### **✅ Ready for Deployment**
-- **baseline_v1 model**: 58.2% accuracy, 77.5% suicide detection F1
-- **Production directory**: `models/production/baseline_v1/`
-- **Complete metadata**: Performance metrics, architecture details
-- **Git-tracked history**: Full audit trail
-
-### **✅ Research Infrastructure**
-- **34+ experiments** tracked and organized
-- **Automated experiment management**
-- **Performance benchmarking**
-- **Production promotion pipeline**
-
-## 🚀 **How to Deploy Your Model**
-
-### **1. Production Model Location**
+### One-Command Deploy
 ```bash
-models/production/baseline_v1/
-├── metadata.json          # Model performance and config
-├── models/
-│   └── best_model.pt     # Trained model weights
-└── vocab.pkl             # Vocabulary for text processing
+# Clone and deploy
+git clone <your-repo-url>
+cd mental-health-classifier
+docker build -t mental-health-classifier .
+docker run -d --name mental-health-classifier -p 8000:8000 mental-health-classifier
 ```
 
-### **2. Model Performance (Production Ready)**
-- **Overall Accuracy**: 58.2%
-- **Suicide Detection F1**: 77.5% ⭐ **Critical for safety**
-- **Anxiety Detection F1**: 59.1%
-- **Depression Detection F1**: 22.4% *(needs improvement)*
-
-### **3. Deployment Code Example**
-```python
-import torch
-import pickle
-from pathlib import Path
-
-# Load production model
-model_path = Path("models/production/baseline_v1")
-model = torch.load(model_path / "models/best_model.pt")
-with open(model_path / "vocab.pkl", 'rb') as f:
-    vocab = pickle.load(f)
-
-# Classify text
-def classify_mental_health(text):
-    # Your preprocessing and prediction code here
-    # Returns: "Depression", "Anxiety", or "Suicide"
-    pass
-```
-
-## 🔧 **Managing Your Experiments**
-
-### **Current System Status**
+### Verify Deployment
 ```bash
-# Check all experiments
-python manage_experiments.py list
+# Test the API
+python test_api.py
 
-# Find production candidates  
-python manage_experiments.py candidates
-
-# View experiment details
-python manage_experiments.py details experiment_name
-
-# Clean up old experiments
-python manage_experiments.py cleanup --keep 5
+# Or test manually
+curl http://localhost:8000/health
 ```
 
-### **Your Experiment Counts**
-- **Active**: 12+ experiments
-- **Total**: 34+ experiments  
-- **Production**: 2 models
-- **Archived**: 19+ experiments
+## Expected Output
+```json
+{
+  "status": "healthy",
+  "model_loaded": true,
+  "model_accuracy": 71.4,
+  "version": "1.0.0"
+}
+```
 
-## ⚠️ **Training Limitations (macOS)**
+## API Endpoints
 
-### **What Doesn't Work**
-- Full training pipeline (bus errors/segmentation faults)
-- Large model architectures
-- Multiprocessing operations
-- Real-time training on your current system
+### Health Check
+```bash
+curl http://localhost:8000/health
+```
 
-### **What Works Perfectly**
-- ✅ Model deployment and inference
-- ✅ Experiment tracking and management
-- ✅ Model evaluation and comparison
-- ✅ Research organization
-- ✅ Production model identification
+### Single Prediction
+```bash
+curl -X POST "http://localhost:8000/predict" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "I feel anxious about everything"}'
+```
 
-## 🎯 **Recommended Next Steps**
+### Batch Prediction
+```bash
+curl -X POST "http://localhost:8000/batch-predict" \
+  -H "Content-Type: application/json" \
+  -d '{"texts": ["I feel great", "I am worried", "I feel hopeless"]}'
+```
 
-### **For Immediate Production Use**
-1. **Deploy baseline_v1** - It's ready and performs well on critical tasks
-2. **Implement inference pipeline** using existing model weights
-3. **Monitor performance** in production
+## Model Classes
+- **Anxiety**: Worry, panic, nervousness
+- **Depression**: Sadness, hopelessness, low mood  
+- **Suicide**: Self-harm ideation, suicide risk
+- **Normal**: Regular expressions, non-clinical text
 
-### **For Research & Development**
-1. **Use experiment management system** to track all future work
-2. **Train improved models** on more powerful hardware when available
-3. **Focus on improving depression detection** (currently 22.4% F1)
-4. **Leverage the 77.5% suicide detection** as a key differentiator
+## Safety Features
+- **HIGH_RISK**: Automatic flagging for suicide content
+- **LOW_CONFIDENCE**: Flags uncertain predictions
+- **REVIEW_RECOMMENDED**: Suggests manual review
 
-### **For System Management**
-1. **Regular cleanup** of old experiments
-2. **Git commit** any new consolidation decisions
-3. **Use production promotion pipeline** for new models
+## Performance Specs
+- **Accuracy**: 71.4%
+- **False Alarm Rate**: 4.8%
+- **Vocabulary**: 365 tokens
+- **Parameters**: 19.3M
+- **Memory Usage**: ~500MB
+- **Response Time**: <100ms per prediction
 
-## 🏆 **Success Metrics Achieved**
+## Troubleshooting
 
-### **Technical Excellence**
-- ✅ **34+ experiments** properly tracked and organized
-- ✅ **Production deployment pipeline** established
-- ✅ **Automated experiment management**
-- ✅ **Git-integrated decision tracking**
-- ✅ **Performance benchmarking system**
+### Common Issues
 
-### **Business Value**
-- ✅ **Mental health classifier** ready for production
-- ✅ **Life-saving suicide detection** (77.5% F1 score)
-- ✅ **Scalable research infrastructure**
-- ✅ **Complete audit trail** for regulatory compliance
-- ✅ **Reproducible model development**
+**1. NLTK Download Error**
+```
+Error: punkt_tab not found
+```
+**Solution**: This is fixed in the latest version. Ensure you're using the updated Dockerfile.
 
-## 🎊 **Conclusion**
+**2. Port Already in Use**
+```
+Error: Port 8000 already in use
+```
+**Solution**: 
+```bash
+# Use different port
+docker run -d --name mental-health-classifier -p 8001:8000 mental-health-classifier
 
-You have built a **production-ready mental health classification system** with **world-class experiment management**. The training limitations on your current hardware don't prevent you from:
+# Or stop existing container
+docker stop mental-health-classifier
+docker rm mental-health-classifier
+```
 
-1. **Deploying your existing models**
-2. **Managing ongoing research**
-3. **Tracking model performance**
-4. **Making data-driven decisions**
+**3. Model Loading Failed**
+```
+Error: Model not loaded
+```
+**Solution**: Check that `models/` directory contains required files:
+- `best_model.pt`
+- `vocab.pkl` 
+- `model_info.json`
 
-Your system is **complete, functional, and ready for production use**!
+### Development Setup
 
----
+For local development without Docker:
 
-*System Status: ✅ **PRODUCTION READY** ✅*
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Download NLTK data
+python -c "import nltk; nltk.download('punkt_tab'); nltk.download('stopwords')"
+
+# Run server
+python api_server.py
+```
+
+## Production Deployment
+
+### Security Considerations
+- API runs as non-root user in container
+- No sensitive data exposed in logs
+- Use reverse proxy (nginx) for HTTPS
+- Implement rate limiting
+- Monitor for abuse patterns
+
+### Scaling
+```bash
+# Docker Compose for multiple instances
+docker-compose up --scale app=3
+
+# Or use Docker Swarm
+docker service create --replicas 3 -p 8000:8000 mental-health-classifier
+```
+
+### Monitoring
+- Health endpoint: `/health`
+- Model info: `/model-info`
+- API docs: `/docs`
+- Logs: `docker logs mental-health-classifier`
+
+## Support
+
+- **Issues**: Create GitHub issue
+- **Security**: Contact maintainers directly
+- **Clinical Validation**: Consult healthcare professionals
+
+⚠️ **Important**: This tool is for screening purposes only. Not a replacement for professional clinical assessment.

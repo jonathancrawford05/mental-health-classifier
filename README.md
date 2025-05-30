@@ -136,6 +136,29 @@ This system is designed for **screening and triage** purposes only:
 
 ## 🚀 Deployment
 
+### Quick Deploy with Docker 🐳
+
+```bash
+# One-command deployment
+git clone <your-repo-url>
+cd mental-health-classifier
+docker build -t mental-health-classifier .
+docker run -d --name mental-health-classifier -p 8000:8000 mental-health-classifier
+
+# Test the API
+python test_api.py
+```
+
+**Expected Output**: API runs on `http://localhost:8000` with 71.4% accuracy
+
+### Full Deployment Guide
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for:
+- Detailed setup instructions
+- API endpoint documentation  
+- Troubleshooting common issues
+- Production deployment tips
+- Security considerations
+
 ### Requirements
 - Python 3.8+
 - PyTorch 1.9+

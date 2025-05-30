@@ -10,24 +10,91 @@ import string
 import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
-from torchtext.data.utils import get_tokenizer
-from torchtext.vocab import build_vocab_from_iterator
+# Replace torchtext tokenizer with simple NLTK-based tokenizer
+# from torchtext.data.utils import get_tokenizer
+# from torchtext.vocab import build_vocab_from_iterator
 from typing import List, Dict, Tuple, Optional, Iterator
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
+from collections import Counter, defaultdict
 import logging
 
-# Download required NLTK data
+# NLTK data should be pre-downloaded during Docker build
 try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
-
-try:
+    # Try new punkt_tab first (NLTK 3.8+), fallback to punkt
+    try:
+        nltk.data.find('tokenizers/punkt_tab')
+        print("Found punkt_tab tokenizer")
+    except LookupError:
+        nltk.data.find('tokenizers/punkt')
+        print("Found punkt tokenizer (legacy)")
+    
     nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords')
+    print("Found stopwords corpus")
+except LookupError as e:
+    print(f"Warning: NLTK data not found: {e}")
+    print("Attempting to download...")
+    try:
+        # Try downloading punkt_tab first, fallback to punkt
+        try:
+            nltk.download('punkt_tab')
+            print("Downloaded punkt_tab")
+        except Exception:
+            nltk.download('punkt')
+            print("Downloaded punkt (legacy)")
+        
+        nltk.download('stopwords')
+        print("Downloaded stopwords")
+    except Exception as download_error:
+        print(f"Failed to download NLTK data: {download_error}")
+
+
+class SimpleVocabulary:
+    """Simple vocabulary class to replace torchtext vocab."""
+    
+    def __init__(self, specials=None):
+        self.specials = specials or ['<unk>', '<pad>', '<sos>', '<eos>']
+        self.token_to_idx = {}
+        self.idx_to_token = {}
+        self.default_index = 0
+        
+        # Add special tokens first
+        for special in self.specials:
+            self._add_token(special)
+    
+    def _add_token(self, token):
+        if token not in self.token_to_idx:
+            idx = len(self.token_to_idx)
+            self.token_to_idx[token] = idx
+            self.idx_to_token[idx] = token
+    
+    def build_from_iterator(self, token_iterator, min_freq=1):
+        """Build vocabulary from token iterator."""
+        # Count token frequencies
+        token_counts = Counter()
+        for tokens in token_iterator:
+            token_counts.update(tokens)
+        
+        # Add tokens that meet minimum frequency
+        for token, count in token_counts.items():
+            if count >= min_freq:
+                self._add_token(token)
+    
+    def set_default_index(self, idx):
+        self.default_index = idx
+    
+    def __getitem__(self, token):
+        return self.token_to_idx.get(token, self.default_index)
+    
+    def __len__(self):
+        return len(self.token_to_idx)
+
+
+def simple_tokenizer(text):
+    """Simple tokenizer using NLTK word_tokenize."""
+    return word_tokenize(text.lower())
 
 
 class ClinicalTextPreprocessor:
@@ -230,7 +297,7 @@ class DataProcessor:
     def __init__(self, config: Dict):
         self.config = config
         self.preprocessor = ClinicalTextPreprocessor()
-        self.tokenizer = get_tokenizer('basic_english')
+        self.tokenizer = simple_tokenizer
         self.vocab = None
         
         # Label mapping
@@ -252,10 +319,10 @@ class DataProcessor:
         """Build vocabulary from training texts."""
         logging.info("Building vocabulary...")
         
-        vocab = build_vocab_from_iterator(
+        vocab = SimpleVocabulary(specials=['<unk>', '<pad>', '<sos>', '<eos>'])
+        vocab.build_from_iterator(
             self.yield_tokens(texts),
-            min_freq=min_freq,
-            specials=['<unk>', '<pad>', '<sos>', '<eos>']
+            min_freq=min_freq
         )
         vocab.set_default_index(vocab['<unk>'])
         

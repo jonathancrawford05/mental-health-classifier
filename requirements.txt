@@ -1,9 +1,8 @@
 # Mental Health Classifier - Requirements
 # Production-ready dependencies for 4-class model + API server
 
-# Core ML/NLP
-torch>=1.9.0
-torchtext>=0.10.0
+# Core ML/NLP (PyTorch installed via Dockerfile)
+# torch, torchtext, torchdata, torchvision installed separately
 transformers>=4.0.0
 scikit-learn>=1.0.0
 
@@ -24,8 +23,8 @@ seaborn>=0.11.0
 # Progress Bars
 tqdm>=4.62.0
 
-# Text Processing
-nltk>=3.6.0
+# Text Processing  
+nltk>=3.8.0,<4.0.0  # Use 3.8+ for punkt_tab support
 
 # JSON/Serialization
 pickle5>=0.0.11; python_version < "3.8"

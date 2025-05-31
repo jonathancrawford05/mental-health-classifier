@@ -1,0 +1,226 @@
+[
+  {
+    "text": "I could just die from embarrassment right now",
+    "true_label": 3,
+    "true_class": "Normal",
+    "predicted_label": 3,
+    "predicted_class": "Normal",
+    "confidence": 0.9999659061431885,
+    "category": "normal_death_expression",
+    "correct": true,
+    "all_probs": [
+      6.463333193096332e-06,
+      2.0347782992757857e-05,
+      7.23934226698475e-06,
+      0.9999659061431885
+    ]
+  },
+  {
+    "text": "This traffic is killing me slowly",
+    "true_label": 3,
+    "true_class": "Normal",
+    "predicted_label": 3,
+    "predicted_class": "Normal",
+    "confidence": 0.9999669790267944,
+    "category": "normal_death_expression",
+    "correct": true,
+    "all_probs": [
+      1.2196538591524586e-05,
+      1.5269508367055096e-05,
+      5.511185008799657e-06,
+      0.9999669790267944
+    ]
+  },
+  {
+    "text": "I'm dead tired after that workout",
+    "true_label": 3,
+    "true_class": "Normal",
+    "predicted_label": 3,
+    "predicted_class": "Normal",
+    "confidence": 0.999909520149231,
+    "category": "normal_death_expression",
+    "correct": true,
+    "all_probs": [
+      3.393122824491002e-05,
+      5.475050420500338e-05,
+      1.7565481584824738e-06,
+      0.999909520149231
+    ]
+  },
+  {
+    "text": "This exam is going to kill me",
+    "true_label": 3,
+    "true_class": "Normal",
+    "predicted_label": 3,
+    "predicted_class": "Normal",
+    "confidence": 0.9999629259109497,
+    "category": "normal_death_expression",
+    "correct": true,
+    "all_probs": [
+      3.842146270471858e-06,
+      1.3143867363396566e-05,
+      2.0132789359195158e-05,
+      0.9999629259109497
+    ]
+  },
+  {
+    "text": "I'm stressed about work but it's manageable",
+    "true_label": 3,
+    "true_class": "Normal",
+    "predicted_label": 3,
+    "predicted_class": "Normal",
+    "confidence": 0.9999563694000244,
+    "category": "normal_stress",
+    "correct": true,
+    "all_probs": [
+      2.8047314117429778e-05,
+      7.8028360803728e-06,
+      7.808612281223759e-06,
+      0.9999563694000244
+    ]
+  },
+  {
+    "text": "I feel hopeless and empty inside",
+    "true_label": 0,
+    "true_class": "Depression",
+    "predicted_label": 1,
+    "predicted_class": "Anxiety",
+    "confidence": 0.999976634979248,
+    "category": "depression",
+    "correct": false,
+    "all_probs": [
+      5.065834557171911e-06,
+      0.999976634979248,
+      3.765380370168714e-06,
+      1.4559892406396102e-05
+    ]
+  },
+  {
+    "text": "Everything feels gray and meaningless lately",
+    "true_label": 0,
+    "true_class": "Depression",
+    "predicted_label": 1,
+    "predicted_class": "Anxiety",
+    "confidence": 0.9999533891677856,
+    "category": "depression",
+    "correct": false,
+    "all_probs": [
+      1.9292019715067e-06,
+      0.9999533891677856,
+      7.1337703957397025e-06,
+      3.750543328351341e-05
+    ]
+  },
+  {
+    "text": "I can't remember the last time I felt genuinely happy",
+    "true_label": 0,
+    "true_class": "Depression",
+    "predicted_label": 1,
+    "predicted_class": "Anxiety",
+    "confidence": 0.8992624878883362,
+    "category": "depression",
+    "correct": false,
+    "all_probs": [
+      0.0010140851372852921,
+      0.8992624878883362,
+      0.09932303428649902,
+      0.0004004121001344174
+    ]
+  },
+  {
+    "text": "I worry constantly about things that might never happen",
+    "true_label": 1,
+    "true_class": "Anxiety",
+    "predicted_label": 0,
+    "predicted_class": "Depression",
+    "confidence": 0.999728262424469,
+    "category": "anxiety",
+    "correct": false,
+    "all_probs": [
+      0.999728262424469,
+      1.4361562534759287e-05,
+      9.407290781382471e-05,
+      0.00016331378719769418
+    ]
+  },
+  {
+    "text": "My chest feels tight and I can't catch my breath",
+    "true_label": 1,
+    "true_class": "Anxiety",
+    "predicted_label": 1,
+    "predicted_class": "Anxiety",
+    "confidence": 0.9990963935852051,
+    "category": "anxiety",
+    "correct": true,
+    "all_probs": [
+      3.776837047553272e-06,
+      0.9990963935852051,
+      0.0006828554323874414,
+      0.0002170392544940114
+    ]
+  },
+  {
+    "text": "I keep checking things even though I know they're fine",
+    "true_label": 1,
+    "true_class": "Anxiety",
+    "predicted_label": 2,
+    "predicted_class": "Suicide",
+    "confidence": 0.8282408714294434,
+    "category": "anxiety",
+    "correct": false,
+    "all_probs": [
+      6.2418421293841675e-06,
+      0.02934480458498001,
+      0.8282408714294434,
+      0.1424080729484558
+    ]
+  },
+  {
+    "text": "I have a plan to end my life and the means to do it",
+    "true_label": 2,
+    "true_class": "Suicide",
+    "predicted_label": 2,
+    "predicted_class": "Suicide",
+    "confidence": 0.9999499320983887,
+    "category": "suicide",
+    "correct": true,
+    "all_probs": [
+      3.6498990084510297e-05,
+      1.309693061557482e-06,
+      0.9999499320983887,
+      1.2327946024015546e-05
+    ]
+  },
+  {
+    "text": "Sometimes I wonder if everyone would be better off without me",
+    "true_label": 2,
+    "true_class": "Suicide",
+    "predicted_label": 3,
+    "predicted_class": "Normal",
+    "confidence": 0.9787263870239258,
+    "category": "suicide",
+    "correct": false,
+    "all_probs": [
+      2.576142151156091e-06,
+      0.01168762519955635,
+      0.009583445265889168,
+      0.9787263870239258
+    ]
+  },
+  {
+    "text": "I don't want to hurt anymore, I think about ways out",
+    "true_label": 2,
+    "true_class": "Suicide",
+    "predicted_label": 2,
+    "predicted_class": "Suicide",
+    "confidence": 0.9999663829803467,
+    "category": "suicide",
+    "correct": true,
+    "all_probs": [
+      1.0317759915778879e-05,
+      2.091715759888757e-05,
+      0.9999663829803467,
+      2.3824952677387046e-06
+    ]
+  }
+]
